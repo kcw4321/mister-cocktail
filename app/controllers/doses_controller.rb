@@ -6,7 +6,7 @@ before_action :find_cocktail, only: [:new, :create]
   end
 
   def create
-    @dose = Dose.new(dose_params)
+    @dose = @cocktail.doses.new(dose_params)
     if @dose.save
       redirect_to cocktail_path(@cocktail)
     else
@@ -19,10 +19,10 @@ before_action :find_cocktail, only: [:new, :create]
 
   private
   def find_cocktail
-    @cocktail = Cocktail.find(:id)
+    @cocktail = Cocktail.find(params[:cocktail_id])
   end
 
   def dose_params
-    params.require(:dose).permit(:description)
+    params.require(:dose).permit(:description, :ingredient_id)
   end
 end
